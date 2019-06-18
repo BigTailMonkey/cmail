@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    druid:
+      url:
+      username:
+      password:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host:
+    username:
+    password:
+    default-encoding: UTF-8
+    port:
+minu:
+  url:
+  username:
+  passowrd:
