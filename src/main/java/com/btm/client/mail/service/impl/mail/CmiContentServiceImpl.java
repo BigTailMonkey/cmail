@@ -1,9 +1,9 @@
-package com.btm.client.mail.service.impl;
+package com.btm.client.mail.service.impl.mail;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.btm.client.mail.entity.CmiContent;
 import com.btm.client.mail.mapper.CmiContentMapper;
-import com.btm.client.mail.service.CmiContentService;
+import com.btm.client.mail.service.mail.CmiContentService;
 import org.springframework.stereotype.Service;
 
 /**

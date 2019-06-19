@@ -1,4 +1,4 @@
-package com.btm.client.mail.service;
+package com.btm.client.mail.service.mail;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.btm.client.mail.entity.CmiContent;

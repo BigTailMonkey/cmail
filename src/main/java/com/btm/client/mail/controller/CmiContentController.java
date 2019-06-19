@@ -1,8 +1,7 @@
 package com.btm.client.mail.controller;
 
-import com.btm.client.mail.configuration.BaseConfig;
 import com.btm.client.mail.entity.CmiContent;
-import com.btm.client.mail.service.CmiContentService;
+import com.btm.client.mail.service.mail.CmiContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

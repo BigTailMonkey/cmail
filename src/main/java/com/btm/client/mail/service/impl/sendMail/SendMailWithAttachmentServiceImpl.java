@@ -1,8 +1,9 @@
-package com.btm.client.mail.controller;
+package com.btm.client.mail.service.impl.sendMail;
 
 import com.btm.client.mail.common.RestResult;
 import com.btm.client.mail.entity.Mail;
 import com.btm.client.mail.minu.Client;
+import com.btm.client.mail.service.sendMail.SendMailWithAttachmentService;
 import io.minio.errors.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.xmlpull.v1.XmlPullParserException;
 
 import javax.mail.internet.MimeMessage;
@@ -25,43 +23,32 @@ import java.util.Map;
 
 /**
  * @Author: BigTailMonkey
- * @Date: 2019/6/19 9:48
+ * @Date: 2019/6/19 14:37
  * @Version: 1.0
  */
 @Slf4j
-@RestController
-@RequestMapping("sendMail/attachement")
-public class SendMailWifhAttachementController {
+@Service("sendMailWithAttachmentService")
+public class SendMailWithAttachmentServiceImpl implements SendMailWithAttachmentService {
 
     @Value("${spring.mail.username}")
     private String from;
-
     @Autowired
     private JavaMailSender mailSender;
     @Autowired(required = false)
     private Client client;
 
     /**
-     * 发送带附件的邮件
-     * 附件直接从minio客户端读取
-     * 需要配置并提供基于minio的对象存储服务
-     * {"attachements":{"文件1-id":"文件1-bucket","文件2-id":"文件2-bucket"},
-     * "content":"内容","recipients":["收件人1","收件人2"],"subject":"邮件标题"}
+     * 给所有收件人群发一份带有附件的邮件
      *
-     * @param mailStr
+     * @param mail
      * @return
      */
-    @PostMapping("minio/group")
-    public RestResult attachementfromMinio(@RequestBody String mailStr) {
-        if (null == client){
-            return RestResult.FAILURE("请添加minio依赖，及相关配置项。",null);
+    @Override
+    public RestResult sendAllRecipient(Mail mail) {
+        if (null == client) {
+            return RestResult.FAILURE("请添加minio依赖，及相关配置项。", null);
         }
-        Mail mail = new Mail();
-        mail = mail.jsonToMail(mailStr);
-        if (!mail.hasRecipient()) {
-            log.trace("收件人不能为空");
-            return RestResult.FAILURE("收件人不能为空。", null);
-        }
+        RestResult restResult = new RestResult();
         MimeMessage message = mailSender.createMimeMessage();
         try {
             String[] recipients = new String[mail.getRecipients().size()];
@@ -70,15 +57,15 @@ public class SendMailWifhAttachementController {
             helper.setTo(mail.getRecipients().toArray(recipients));
             helper.setSubject(mail.getSubject());
             helper.setText(mail.getContent());
-            if (mail.hasAttachemet()) {
+            if (mail.hasAttachment()) {
                 for (Map.Entry<String, String> entry :
-                        mail.getAttachements().entrySet()) {
+                        mail.getAttachments().entrySet()) {
                     InputStreamSource inputStreamSource = new InputStreamSource() {
                         @Override
                         public InputStream getInputStream() throws IOException {
                             InputStream inputStream = null;
                             try {
-                                inputStream = client.getObject(entry.getValue(),entry.getKey());
+                                inputStream = client.getObject(entry.getValue(), entry.getKey());
                             } catch (InvalidBucketNameException e) {
                                 e.printStackTrace();
                             } catch (NoSuchAlgorithmException e) {
@@ -103,14 +90,16 @@ public class SendMailWifhAttachementController {
                             return inputStream;
                         }
                     };
-                    helper.addAttachment(entry.getKey(),inputStreamSource);
+                    helper.addAttachment(entry.getKey(), inputStreamSource);
                 }
             }
             mailSender.send(message);
-            log.trace("附件邮件发送成功");
+            log.info("附件邮件发送成功");
+            restResult = RestResult.SUCCESS("邮件发送成功。", null);
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            restResult = RestResult.FAILURE("邮件发送失败",e.getMessage());
         }
-        return RestResult.SUCCESS("附件邮件发送成功。",null);
+            return restResult;
     }
 }
