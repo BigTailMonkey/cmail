@@ -18,10 +18,11 @@ spring:
     
 
 使用minio提供对象存储服务，请添加一下配置 
-minu:  
-  url:  
-  username:  
-  passowrd:  
+cmail:
+  minu:  
+    url:  
+    username:  
+    passowrd:  
   
   
 接口说明

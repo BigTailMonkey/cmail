@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties("minu")
+@ConfigurationProperties("cmail.minio")
 public class ClientProperty {
 
     private String url;
