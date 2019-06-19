@@ -26,9 +26,10 @@ minu:
   
 接口说明
 ----------------------------------------------------------------
-1./content/all 获得全部已配置的邮件内容信息
-2./sendMail/simple 发送简单邮件，仅包含：收件人、邮件标题、内容。多个收件人以群发方式送达。
+1./content/all 获得全部已配置的邮件内容信息，请求方式：get。
+2./sendMail/simple/group 发送简单邮件，请求方式：post，仅包含：收件人、邮件标题、内容。多个收件人以群发方式送达。
+3./sendMail/simple/singleton 发送简单邮件，请求方式：post，仅包含：收件人、邮件标题、内容。多个收件人以单发方式送达。
 请求方式为post，请求参数json格式如下：{"content":"内容","recipients":["收件人1","收件人2"],"subject":"邮件标题"}。
-3./sendMail/attachement/minio/group 发送从带附件的邮件，附件文件从minio客户端读取。多个收件人以群发的方式送达。
-请求方式为post，请求参数json格式如下：{"attachements":{"文件1-id":"文件1-bucket","文件2-id":"文件2-bucket"},
+4./sendMail/attachement/minio/group 发送从带附件的邮件，附件文件从minio客户端读取。多个收件人以群发的方式送达。
+请求方式：post，请求参数json格式如下：{"attachements":{"文件1-id":"文件1-bucket","文件2-id":"文件2-bucket"},
 "content":"内容","recipients":["收件人1","收件人2"],"subject":"邮件标题"}。

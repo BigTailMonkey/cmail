@@ -45,12 +45,13 @@ public class SendMailController {
 
     /**
      * 发送一条简单邮件
+     * 群发
      * 仅包含收件人、邮件标题、邮件正文
      *
      * @return
      */
-    @PostMapping("simple")
-    public RestResult simple(Mail mail) {
+    @PostMapping("simple/group")
+    public RestResult simpleGroup(Mail mail) {
         if (!mail.hasRecipient()) {
             log.trace("收件人不能为空");
             return RestResult.FAILURE("收件人不能为空。", null);
@@ -67,6 +68,31 @@ public class SendMailController {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+        return RestResult.SUCCESS("简单邮件发送成功。", null);
+    }
+
+    /**
+     * 发送一条简单邮件
+     * 单发
+     * 仅包含收件人、邮件标题、邮件正文
+     *
+     * @param mail
+     * @return
+     */
+    @PostMapping("simple/singleton")
+    public RestResult simpleSimgleton(Mail mail){
+        if (!mail.hasRecipient()) {
+            log.trace("收件人不能为空");
+            return RestResult.FAILURE("收件人不能为空。", null);
+        }
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(from);
+        message.setSubject(mail.getSubject());
+        message.setText(mail.getContent());
+        mail.getRecipients().stream().forEach(to -> {
+            message.setTo(to);
+            mailSender.send(message);
+        });
         return RestResult.SUCCESS("简单邮件发送成功。", null);
     }
 }
