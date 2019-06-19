@@ -44,7 +44,7 @@ public class SendMailWithAttachmentServiceImpl implements SendMailWithAttachment
      * @return
      */
     @Override
-    public RestResult sendAllRecipient(Mail mail) {
+    public RestResult attachmentfromMinioGroup(Mail mail) {
         if (null == client) {
             return RestResult.FAILURE("请添加minio依赖，及相关配置项。", null);
         }
@@ -101,5 +101,10 @@ public class SendMailWithAttachmentServiceImpl implements SendMailWithAttachment
             restResult = RestResult.FAILURE("邮件发送失败",e.getMessage());
         }
             return restResult;
+    }
+
+    @Override
+    public RestResult attachmentFromServiceGroup(Mail mail) {
+        return RestResult.FAILURE("功能暂未开放。",null);
     }
 }

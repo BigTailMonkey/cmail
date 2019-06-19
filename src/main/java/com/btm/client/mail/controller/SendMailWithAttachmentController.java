@@ -46,7 +46,7 @@ public class SendMailWithAttachmentController {
             log.error("收件人不能为空");
             return RestResult.FAILURE("收件人不能为空。", null);
         }
-        return sendMailWithAttachmentService.sendAllRecipient(mail);
+        return sendMailWithAttachmentService.attachmentfromMinioGroup(mail);
     }
     /**
      * 发送带附件的邮件
@@ -73,8 +73,22 @@ public class SendMailWithAttachmentController {
             List<String> oneRecipient = new ArrayList<>(1);
             oneRecipient.add(recipient);
             mail.setRecipients(oneRecipient);
-            result.add(sendMailWithAttachmentService.sendAllRecipient(mail));
+            result.add(sendMailWithAttachmentService.attachmentfromMinioGroup(mail));
         }
         return RestResult.SUCCESS("发送完成。",result);
+    }
+
+    /**
+     * 从其它web接口中获取附件
+     */
+    @PostMapping("service/group")
+    public RestResult attachmentFromServiceGroup(@RequestBody String mailStr){
+        Mail mail = new Mail();
+        mail = mail.jsonToMail(mailStr);
+        if (!mail.hasRecipient()) {
+            log.error("收件人不能为空。");
+            return RestResult.FAILURE("收件人不能为空。", null);
+        }
+        return sendMailWithAttachmentService.attachmentFromServiceGroup(mail);
     }
 }
