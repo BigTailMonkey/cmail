@@ -3,6 +3,7 @@ package com.btm.client.mail.minu;
 import io.minio.MinioClient;
 import io.minio.errors.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
@@ -28,15 +29,22 @@ public class Client {
     @Bean
     @ConditionalOnClass(MinioClient.class)
     public MinioClient getClient(ClientProperty clientProperty) {
-        log.info("初始化 Minio Client ...");
         try {
+            log.info("初始化 Minio Client ...");
+            if (StringUtils.isBlank(clientProperty.getUrl()) ||
+                    StringUtils.isBlank(clientProperty.getUserName()) ||
+                    StringUtils.isBlank(clientProperty.getPassword())){
+                throw new IllegalArgumentException("客户端配置信息未配置或配置不正确。");
+            }
             minioClient = new MinioClient(clientProperty.getUrl(), clientProperty.getUserName(), clientProperty.getPassword());
+            log.info("初始化 Minio Client 完成。");
         } catch (InvalidEndpointException e) {
             e.printStackTrace();
         } catch (InvalidPortException e) {
             e.printStackTrace();
+        } catch (IllegalArgumentException e){
+            log.error(e.getMessage(),e);
         }
-        log.info("初始化 Minio Client 完成。");
         return minioClient;
     }
 
