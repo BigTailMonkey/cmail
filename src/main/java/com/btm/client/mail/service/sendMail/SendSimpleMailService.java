@@ -1,7 +1,8 @@
 package com.btm.client.mail.service.sendMail;
 
 import com.btm.client.mail.common.RestResult;
-import com.btm.client.mail.entity.Mail;
+import com.btm.client.mail.entity.dao.Mail;
+import com.btm.client.mail.entity.dto.IntelligenceMailDTO;
 
 /**
  * @Author: BigTailMonkey
@@ -24,5 +25,14 @@ public interface SendSimpleMailService {
      * @param mail
      * @return
      */
-    RestResult sendMailSinleton(Mail mail);
+    RestResult sendMailSingleton(Mail mail);
+
+    /**
+     * 使用数据库配置的邮件模板，发送邮件
+     * 邮件内容中函数有{}包裹的占位符
+     *
+     * @param intelligenceMailDTO
+     * @return
+     */
+    RestResult placeHolderGroupSendMail(IntelligenceMailDTO intelligenceMailDTO);
 }

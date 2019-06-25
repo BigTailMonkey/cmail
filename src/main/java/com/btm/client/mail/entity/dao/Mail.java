@@ -1,4 +1,4 @@
-package com.btm.client.mail.entity;
+package com.btm.client.mail.entity.dao;
 
 import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;

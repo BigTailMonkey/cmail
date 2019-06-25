@@ -2,7 +2,7 @@ package com.btm.client.mail.configuration.auto;
 
 import com.btm.client.mail.configuration.BaseConfig;
 import com.btm.client.mail.configuration.MailServiceConfig;
-import com.btm.client.mail.entity.CmiContent;
+import com.btm.client.mail.entity.dao.CmiContent;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

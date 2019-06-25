@@ -1,7 +1,7 @@
 package com.btm.client.mail.service.sendMail;
 
 import com.btm.client.mail.common.RestResult;
-import com.btm.client.mail.entity.Mail;
+import com.btm.client.mail.entity.dao.Mail;
 
 /**
  * @Author: BigTailMonkey

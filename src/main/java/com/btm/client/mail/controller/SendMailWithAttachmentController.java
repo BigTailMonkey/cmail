@@ -1,7 +1,7 @@
 package com.btm.client.mail.controller;
 
 import com.btm.client.mail.common.RestResult;
-import com.btm.client.mail.entity.Mail;
+import com.btm.client.mail.entity.dao.Mail;
 import com.btm.client.mail.service.sendMail.SendMailWithAttachmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

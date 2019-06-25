@@ -1,7 +1,7 @@
 package com.btm.client.mail.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.btm.client.mail.entity.CmiContent;
+import com.btm.client.mail.entity.dao.CmiContent;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
