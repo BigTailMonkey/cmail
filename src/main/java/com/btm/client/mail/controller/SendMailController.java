@@ -62,26 +62,4 @@ public class SendMailController {
         }
         return sendSimpleMailService.sendMailSingleton(mail);
     }
-
-    /**
-     * 接收用户登录ID列表，自动匹配用户邮箱地址
-     * 使用占位符，替换邮件内容
-     * 群发邮件
-     *
-     * @param intelligenceMailDTO
-     * @return
-     */
-    @PostMapping("noAuthentication/placeholder/group")
-    public RestResult placeHolderGroupSendMail(IntelligenceMailDTO intelligenceMailDTO) {
-        if (null != intelligenceMailDTO &&
-                null != intelligenceMailDTO.getMailDescription() &&
-                0 < intelligenceMailDTO.getMailDescription().size() &&
-                null != intelligenceMailDTO.getUserLoginArray() &&
-                0 < intelligenceMailDTO.getUserLoginArray().length &&
-                StringUtils.isNotBlank(intelligenceMailDTO.getMailId())) {
-            return sendSimpleMailService.placeHolderGroupSendMail(intelligenceMailDTO);
-        } else {
-            return RestResult.FAILURE("参数不完备。", intelligenceMailDTO);
-        }
-    }
 }
