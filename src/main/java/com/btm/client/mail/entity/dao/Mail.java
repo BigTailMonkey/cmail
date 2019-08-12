@@ -52,4 +52,9 @@ public class Mail implements Serializable,Cloneable {
     public Mail jsonToMail(String json){
         return JSON.parseObject(json,Mail.class);
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

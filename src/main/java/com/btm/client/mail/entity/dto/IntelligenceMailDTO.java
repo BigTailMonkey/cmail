@@ -27,4 +27,18 @@ public class IntelligenceMailDTO {
      * value：替换后的值
      */
     private Map<String,String> mailDescription;
+
+    public void setUserLoginArray(String[] userLoginArray){
+        if (userLoginArray != null){
+            this.userLoginArray = userLoginArray.clone();
+        }
+    }
+
+    public String[] getUserLoginArray(){
+        if (this.userLoginArray != null){
+            return this.userLoginArray.clone();
+        }else{
+            return null;
+        }
+    }
 }

@@ -48,7 +48,7 @@ public class SendMailWithAttachmentServiceImpl implements SendMailWithAttachment
         if (null == client) {
             return RestResult.FAILURE("请添加minio依赖，及相关配置项。", null);
         }
-        RestResult restResult = new RestResult();
+        RestResult restResult;
         MimeMessage message = mailSender.createMimeMessage();
         try {
             String[] recipients = new String[mail.getRecipients().size()];
